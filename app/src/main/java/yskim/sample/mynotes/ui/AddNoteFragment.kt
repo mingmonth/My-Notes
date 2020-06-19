@@ -1,19 +1,16 @@
 package yskim.sample.mynotes.ui
 
-import android.os.AsyncTask
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_add_note.*
+import kotlinx.coroutines.launch
 import yskim.sample.mynotes.R
 import yskim.sample.mynotes.db.Note
 import yskim.sample.mynotes.db.NoteDatabase
 
-class AddNoteFragment : Fragment() {
+class AddNoteFragment : BaseFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,9 +42,15 @@ class AddNoteFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            val note = Note(noteTitle, noteBody)
-
-            saveNote(note)
+            launch {
+                val note = Note(noteTitle, noteBody)
+                context?.let {
+                    NoteDatabase(it).getNoteDao().addNote(note)
+                    //Toast.makeText(activity, "Note Saved", Toast.LENGTH_LONG).show()
+                    it.toast("Note Saved")
+                }
+            }
+//            saveNote(note)
 //            NoteDatabase(activity!!).getNoteDao().addNote(note)
 
 //            val action = AddNoteFragmentDirections.actionSaveNote()
@@ -56,21 +59,21 @@ class AddNoteFragment : Fragment() {
         }
     }
 
-    private fun saveNote(note: Note) {
-        class SaveNote : AsyncTask<Void, Void, Void>() {
-
-            override fun doInBackground(vararg params: Void?): Void? {
-                NoteDatabase(activity!!).getNoteDao().addNote(note)
-                return null
-            }
-
-            override fun onPostExecute(result: Void?) {
-                super.onPostExecute(result)
-
-                Toast.makeText(activity, "Note Saved", Toast.LENGTH_LONG).show()
-            }
-        }
-
-        SaveNote().execute()
-    }
+//    private fun saveNote(note: Note) {
+//        class SaveNote : AsyncTask<Void, Void, Void>() {
+//
+//            override fun doInBackground(vararg params: Void?): Void? {
+//                NoteDatabase(activity!!).getNoteDao().addNote(note)
+//                return null
+//            }
+//
+//            override fun onPostExecute(result: Void?) {
+//                super.onPostExecute(result)
+//
+//                Toast.makeText(activity, "Note Saved", Toast.LENGTH_LONG).show()
+//            }
+//        }
+//
+//        SaveNote().execute()
+//    }
 }

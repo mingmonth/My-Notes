@@ -9,7 +9,7 @@ import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_home.*
 import yskim.sample.mynotes.R
 
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
