@@ -1,8 +1,13 @@
 package yskim.sample.mynotes.ui
 
+import android.app.Activity
+import android.app.Activity.*
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_add_note.*
 import kotlinx.coroutines.launch
@@ -60,12 +65,19 @@ class AddNoteFragment : BaseFragment() {
                         NoteDatabase(it).getNoteDao().addNote(lNote)
                         //Toast.makeText(activity, "Note Saved", Toast.LENGTH_LONG).show()
                         it.toast("Note Saved")
+                        //activity?.onBackPressed()
+                        //finish()
                     } else {
                         lNote.id = note!!.id
                         NoteDatabase(it).getNoteDao().updateNote(lNote)
                         //Toast.makeText(activity, "Note Saved", Toast.LENGTH_LONG).show()
                         it.toast("Note Updated")
+                        //activity?.onBackPressed()
+                        //finish()
                     }
+
+                    val inputManager = context?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                    inputManager.hideSoftInputFromWindow(view.windowToken, 0)
 
                     val action = AddNoteFragmentDirections.actionSaveNote()
                     Navigation.findNavController(view).navigate(action)
