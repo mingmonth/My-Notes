@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_add_note.*
 import kotlinx.coroutines.launch
 import yskim.sample.mynotes.R
@@ -25,7 +26,7 @@ class AddNoteFragment : BaseFragment() {
 
 //        NoteDatabase(activity!!).getNoteDao().
 
-        button_save.setOnClickListener {
+        button_save.setOnClickListener { view ->
 
             val noteTitle = edit_text_title.text.toString().trim()
             val noteBody = edit_text_note.text.toString().trim()
@@ -48,6 +49,9 @@ class AddNoteFragment : BaseFragment() {
                     NoteDatabase(it).getNoteDao().addNote(note)
                     //Toast.makeText(activity, "Note Saved", Toast.LENGTH_LONG).show()
                     it.toast("Note Saved")
+
+                    val action = AddNoteFragmentDirections.actionSaveNote()
+                    Navigation.findNavController(view).navigate(action)
                 }
             }
 //            saveNote(note)
