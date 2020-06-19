@@ -1,8 +1,6 @@
 package yskim.sample.mynotes.db
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface NoteDao {
@@ -15,4 +13,10 @@ interface NoteDao {
 
     @Insert
     suspend fun addMultipleNotes(vararg note: Note)
+
+    @Update
+    suspend fun updateNote(note: Note)
+
+    @Delete
+    suspend fun deleteNote(note: Note)
 }
